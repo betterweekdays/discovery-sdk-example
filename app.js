@@ -44,8 +44,9 @@ window.getAccessToken = function() {
         $('#bwdAccessTokenStatus')
           .attr('class', 'alert')
           .addClass('alert-success')
-          .text('Successfully retrieved access token. The token will be ' +
-            'stored for use in other methods, like for listing jobs.');
+          .html('Successfully retrieved access token. The token will be ' +
+            'stored for use in other methods, like for listing jobs.<br/><br/>' +
+            'This request can be performed with curl using the following options:<pre>' + window.mockCurlToken() + '</pre>');
       } else {
         $('#accessToken').val('');
         $('#bwdAccessTokenStatus')
@@ -120,7 +121,7 @@ window.getJobs = function(preset) {
       $('#bwdJobsStatus')
         .attr('class', 'alert')
         .addClass('alert-success')
-        .text('Successfully received ' + num + ' jobs out of ' + totalNum + ' total.');
+        .html('Successfully received ' + num + ' jobs out of ' + totalNum + ' total.<br/><br/>This request can be performed with curl using the following options:<pre>' + window.mockCurl('discovery/jobs', params, 'GET') + '</pre>');
       $('.pager-prev').parent().css('display', results.previous ? 'inline' : 'none');
       $('.pager-next').parent().css('display', results.next ? 'inline' : 'none');
       $('.pager').removeClass('hide');
@@ -190,7 +191,7 @@ window.getJob = function() {
         $('#bwdJobStatus')
           .attr('class', 'alert')
           .addClass('alert-success')
-          .text('Successfully received job.');
+          .html('Successfully received job.<br/><br/>This request can be performed with curl using the following options:<pre>' + window.mockCurl('discovery/jobs', params, 'GET') + '</pre>');
       } else {
         $('#bwdJobStatus')
           .attr('class', 'alert')
@@ -208,6 +209,39 @@ window.getJob = function() {
         .addClass('alert-danger')
         .text('An error occurred when getting the job: ' + error.message);
     });
+};
+
+window.mockCurl = function(url, params, method) {
+  var cmd = 'curl ';
+  if (method) {
+    cmd += '-X' + method + ' ';
+  }
+  cmd += '-H "Authorization: Bearer ' + BWD.Config.get('AccessToken').access_token + '" ';
+  var url = BWD.Client.buildUrl(url);
+  var data = '';
+  for (var key in params) {
+    if (params.hasOwnProperty(key)) {
+      if (data.length) {
+        data += '&';
+      }
+      data += key.replace(/\[/g, '\\[').replace(/\]/g, '\\]') + '=' + params[key];
+    }
+  }
+  if (method === 'GET' || !method) {
+    cmd += '"' + url + '?' + data + '"';
+  } else {
+    cmd += url + ' -d "' + data + '"';
+  }
+  return cmd;
+};
+
+window.mockCurlToken = function() {
+  var headerAuth = 'Basic ' + btoa(BWD.Config.get('APIKey') + ':' +
+    BWD.Config.get('APISecret'));
+  var cmd = 'curl -XPOST -H "Authorization: ' + headerAuth +
+    '" -H "Content-Type: application/x-www-form-urlencoded" ' +
+    BWD.Client.buildUrl('oauth/token') + ' -d "grant_type=client_credentials"';
+  return cmd;
 };
 
 // Check for a hash parameter
