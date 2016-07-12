@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Better Weekdays Discovery SDK for JavaScript</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+</head>
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Better Weekdays Discovery SDK for JavaScript</a>
+      </div>
+      <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav nav-pills navbar-nav navbar-right" role="tablist">
+          <li><a href="https://bitbucket.org/betterweekdays/discovery-sdk-js" target="_blank">BitBucket <span class="glyphicon glyphicon-new-window"></span></a></li>
+          <li><a href="https://www.npmjs.com/package/@betterweekdays/discovery-sdk" target="_blank">npm <span class="glyphicon glyphicon-new-window"></span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <nav class="hidden-xs col-sm-2">
+        <ul class="nav nav-pills nav-stacked affix" role="tablist">
+          <li class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home <span class="sr-only">(current)</span></a></li>
+          <li><a href="#access-token" aria-controls="jobs" role="tab" data-toggle="tab">Get token</a></li>
+          <li><a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">List jobs</a></li>
+          <li><a href="#job" aria-controls="jobs" role="tab" data-toggle="tab">Get job</a></li>
+        </ul>
+      </nav>
+      <div class="container col-sm-10" role="main">
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="home">
+            <div class="jumbotron">
+              <h1>Discovery SDK Example</h1>
+              <p>
+                This JavaScript-based web app is an example for the Better Weekdays
+                Discovery SDK for JavaScript.
+              </p>
+              <p><a class="btn btn-primary btn-lg" href="https://bitbucket.org/betterweekdays/discovery-sdk-js" role="button">Learn more</a></p>
+            </div>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="access-token">
+            <form>
+              <div class="form-group">
+                <label for="apiKey">API Key</label>
+                <input type="text" class="form-control" id="apiKey" required="required" placeholder="Enter your API key" />
+              </div>
+              <div class="form-group">
+                <label for="apiSecret">API Secret</label>
+                <input type="password" class="form-control" id="apiSecret" placeholder="Enter your API secret" />
+              </div>
+              <div class="form-group">
+                <label for="env">Environment</label>
+                <select class="form-control" id="env" name="env" required="required">
+                  <option>prod</option>
+                  <option selected>test</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getAccessToken()">Get Access Token</button>
+              <button type="button" class="btn btn-default" onclick="goLogin()">Login</button>
+              <button type="button" class="btn btn-default" onclick="goLogout()">Logout</button>
+            </form>
+            <div id="bwdAccessTokenStatus" class="alert"></div>
+            <div class="form-group">
+              <label for="accessToken">Access Token</label>
+              <input type="text" class="form-control" id="accessToken" readonly value="" />
+            </div>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="jobs">
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="limit">Limit</label>
+                <input type="number" class="form-control" id="limit" min="1" max="100" step="1" value="50" />
+              </div>
+              <div class="form-group">
+                <label for="page">Page</label>
+                <input type="number" class="form-control" id="page" min="1" max="1000" step="1" value="1" />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getJobs()">List Jobs</button>
+              <ul class="pager hide" style="display: inline-block;">
+                <li><a href="#" class="pager-prev" onclick="pageJobs(-1)">Previous</a></li>
+                <li><a href="#" class="pager-next" onclick="pageJobs(1)">Next</a></li>
+              </ul>
+            </form>
+            <div id="bwdJobsStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Company</th>
+                  <th>Location</th>
+                </tr>
+              </thead>
+              <tbody id="bwdJobsTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="job">
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="jobId">Job ID</label>
+                <input type="number" class="form-control" id="jobId" step="1" required />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getJob()">Get Job</button>
+            </form>
+            <div id="bwdJobStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody id="bwdJobTableBody">
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="discovery-sdk.js"></script>
+  <script type="text/javascript" src="app.js"></script>
+</body>
+</html>

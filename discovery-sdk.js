@@ -1,0 +1,1 @@
+dist/discovery-sdk.js
