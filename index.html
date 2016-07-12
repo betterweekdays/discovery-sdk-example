@@ -90,7 +90,9 @@
                 <label for="page">Page</label>
                 <input type="number" class="form-control" id="page" min="1" max="1000" step="1" value="1" />
               </div>
-              <button type="submit" class="btn btn-default" onclick="getJobs()">List Jobs</button>
+              <button type="submit" class="btn btn-primary" onclick="getJobs()">List Jobs</button>
+              <button type="submit" class="btn btn-info" onclick="getJobs('nyc')">List jobs in NYC Area</button>
+              <button type="submit" class="btn btn-info" onclick="getJobs('bac-chi')">List Bank of America jobs in Chicago</button>
               <ul class="pager hide" style="display: inline-block;">
                 <li><a href="#" class="pager-prev" onclick="pageJobs(-1)">Previous</a></li>
                 <li><a href="#" class="pager-next" onclick="pageJobs(1)">Next</a></li>

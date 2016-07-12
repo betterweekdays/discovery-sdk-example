@@ -68,7 +68,7 @@ window.getAccessToken = function() {
     });
 };
 
-window.getJobs = function() {
+window.getJobs = function(preset) {
   window.event.preventDefault();
 
   var token = BWD.Config.get('AccessToken');
@@ -84,6 +84,18 @@ window.getJobs = function() {
     count: $('#limit').val(),
     page: $('#page').val()
   };
+
+  if (preset) {
+    if (preset === 'nyc') {
+      params['filter[location]'] = 25590; // Montclair, NJ
+    } else if (preset === 'bac-chi') {
+      // Bank of America jobs in Joliet
+      params['filter[company]'] = 652; // Bank of America
+      params['filter[location]'] = 90484; // Joliet, IL
+    }
+  }
+
+  window.jobsActivePreset = preset;
 
   $('#bwdJobsTableBody').html('');
   $('#bwdJobsStatus')
@@ -128,7 +140,7 @@ window.getJobs = function() {
 
 window.pageJobs = function(num) {
   $('#page').val(parseInt($('#page').val(), 10) + Number(num));
-  window.getJobs();
+  window.getJobs(window.jobsActivePreset);
 };
 
 window.getJob = function() {
