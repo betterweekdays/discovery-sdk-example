@@ -3774,6 +3774,13 @@ BWDJobs.prototype.get = function(query) {
   return BWD.Client.request(options);
 };
 
+BWDJobs.prototype.getById = function(id) {
+  var options = {
+    path: BWD.Client.buildUrl('discovery/jobs/' + id)
+  };
+  return BWD.Client.request(options);
+};
+
 module.exports = BWDJobs;
 
 },{}]},{},[30]);

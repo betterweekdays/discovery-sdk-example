@@ -156,9 +156,7 @@ window.getJob = function() {
     return;
   }
 
-  var params = {
-    'filter[id][value]': $('#jobId').val()
-  };
+  var jobId = $('#jobId').val();
 
   $('#bwdJobTableBody').html('');
   $('#bwdJobStatus')
@@ -166,7 +164,7 @@ window.getJob = function() {
     .addClass('alert-warning')
     .text('Loading...');
 
-  BWD.Jobs.get(params)
+  BWD.Jobs.getById(jobId)
     .then(function(results) {
       console.log('BWD.Jobs.get() returned successfully. Results: ', results);
       var tableHtml;
@@ -191,7 +189,7 @@ window.getJob = function() {
         $('#bwdJobStatus')
           .attr('class', 'alert')
           .addClass('alert-success')
-          .html('Successfully received job.<br/><br/>This request can be performed with curl using the following options:<pre>' + window.mockCurl('discovery/jobs', params, 'GET') + '</pre>');
+          .html('Successfully received job.<br/><br/>This request can be performed with curl using the following options:<pre>' + window.mockCurl('discovery/jobs/' + jobId, null, 'GET') + '</pre>');
       } else {
         $('#bwdJobStatus')
           .attr('class', 'alert')
@@ -227,7 +225,9 @@ window.mockCurl = function(url, params, method) {
       data += key.replace(/\[/g, '\\[').replace(/\]/g, '\\]') + '=' + params[key];
     }
   }
-  if (method === 'GET' || !method) {
+  if (!data.length) {
+    cmd += url;
+  } else if (method === 'GET' || !method) {
     cmd += '"' + url + '?' + data + '"';
   } else {
     cmd += url + ' -d "' + data + '"';
