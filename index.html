@@ -32,11 +32,24 @@
   <div class="container">
     <div class="row">
       <nav class="hidden-xs col-sm-2">
-        <ul class="nav nav-pills nav-stacked affix" role="tablist">
+        <ul class="nav nav-pills nav-stacked" role="tablist">
           <li class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home <span class="sr-only">(current)</span></a></li>
-          <li><a href="#access-token" aria-controls="jobs" role="tab" data-toggle="tab">Get token</a></li>
-          <li><a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">List jobs</a></li>
-          <li><a href="#job" aria-controls="jobs" role="tab" data-toggle="tab">Get job</a></li>
+          <li class="list-group-item-warning"><a href="#environment" aria-controls="environment" role="tab" data-toggle="tab">Environment</a></li>
+          <li class="list-group-item-warning"><a href="#apigee" aria-controls="apigee" role="tab" data-toggle="tab">Apigee</a></li>
+          <li class="list-group-item-warning"><a href="#auth0" aria-controls="auth0" role="tab" data-toggle="tab">Auth0</a></li>
+          <li class="list-group-item-success"><a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">List jobs</a></li>
+          <li class="list-group-item-success"><a href="#job" aria-controls="jobs" role="tab" data-toggle="tab">Get job</a></li>
+          <li class="list-group-item-success"><a href="#companies" aria-controls="companies" role="tab" data-toggle="tab">Companies</a></li>
+          <li class="list-group-item-success"><a href="#company_stats" aria-controls="company_stats" role="tab" data-toggle="tab">Get company</a></li>
+          <li class="list-group-item-success"><a href="#user" aria-controls="user" role="tab" data-toggle="tab">Get logged in user</a></li>
+          <li class="list-group-item-success"><a href="#favorites" aria-controls="favorites" role="tab" data-toggle="tab">Favorites</a></li>
+          <li class="list-group-item-success"><a href="#feed" aria-controls="feed" role="tab" data-toggle="tab">Feed</a></li>
+          <li class="list-group-item-success"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+          <li class="list-group-item-success"><a href="#locations" aria-controls="locations" role="tab" data-toggle="tab">Locations</a></li>
+          <li class="list-group-item-success"><a href="#autocomplete" aria-controls="autocomplete" role="tab" data-toggle="tab">Autocomplete</a></li>
+          <li class="list-group-item-success"><a href="#articles" aria-controls="articles" role="tab" data-toggle="tab">Articles</a></li>
+          <li class="list-group-item-success"><a href="#article_stats" aria-controls="article_stats" role="tab" data-toggle="tab">Get article</a></li>
+          <li class="list-group-item-success"><a href="#glassdoor_data" aria-controls="glassdoor_data" role="tab" data-toggle="tab">Glassdoor Data</a></li>
         </ul>
       </nav>
       <div class="container col-sm-10" role="main">
@@ -52,32 +65,96 @@
             </div>
           </div>
 
-          <div role="tabpanel" class="tab-pane" id="access-token">
+          <div role="tabpanel" class="tab-pane" id="environment">
             <form>
-              <div class="form-group">
-                <label for="apiKey">API Key</label>
-                <input type="text" class="form-control" id="apiKey" required="required" placeholder="Enter your API key" />
-              </div>
-              <div class="form-group">
-                <label for="apiSecret">API Secret</label>
-                <input type="password" class="form-control" id="apiSecret" placeholder="Enter your API secret" />
-              </div>
               <div class="form-group">
                 <label for="env">Environment</label>
                 <select class="form-control" id="env" name="env" required="required">
-                  <option>prod</option>
-                  <option selected>test</option>
+                  <option selected>prod</option>
+                  <option>test</option>
+                  <option>dev</option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-default" onclick="getAccessToken()">Get Access Token</button>
-              <button type="button" class="btn btn-default" onclick="goLogin()">Login</button>
-              <button type="button" class="btn btn-default" onclick="goLogout()">Logout</button>
+              <div class="form-group">
+                <label for="backEnv">Backend Environment</label>
+                <select class="form-control" id="backEnv" name="backEnv" required="required">
+                  <option>prod</option>
+                  <option selected>stage</option>
+                  <option>dev</option>
+                </select>
+              </div>
+            </form>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="apigee">
+            <form>
+              <div class="form-group">
+                <label for="apiKey">API Key</label>
+                <input type="text" class="form-control" id="apiKey" required="required" placeholder="Enter your API key">
+              </div>
+              <div class="form-group">
+                <label for="apiSecret">API Secret</label>
+                <input type="password" class="form-control" id="apiSecret" placeholder="Enter your API secret">
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getApigeeAccessToken()">Get Access Token</button>
+              <!-- <button type="button" class="btn btn-default" onclick="goLogin()">Login</button>
+              <button type="button" class="btn btn-default" onclick="goLogout()">Logout</button> -->
             </form>
             <div id="bwdAccessTokenStatus" class="alert"></div>
             <div class="form-group">
               <label for="accessToken">Access Token</label>
               <input type="text" class="form-control" id="accessToken" readonly value="" />
             </div>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="auth0">
+            <form>
+              <div class="form-group">
+                <label for="auth0_email">Email</label>
+                <input type="email" class="form-control" id="auth0_email" required="required" placeholder="Enter your email" />
+              </div>
+              <div class="form-group">
+                <label for="auth0_password">Password</label>
+                <input type="password" class="form-control" id="auth0_password" placeholder="Enter your password" />
+              </div>
+              <div class="form-group">
+                <label for="auth0_id">Auth0 Client ID</label>
+                <input type="password" class="form-control" id="auth0_id" placeholder="Enter Auth0 Client ID" />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getAuth0Token('access')">Get Access Token</button>
+              <button type="submit" class="btn btn-default" onclick="getAuth0Token('id')">Get Id Token</button>
+            </form>
+            <div id="bwdAuth0Status" class="alert"></div>
+            <div class="form-group">
+              <label for="auth0AccessToken">Auth0 Access Token</label>
+              <input type="text" class="form-control" id="auth0AccessToken" readonly value="" />
+            </div>
+            <div class="form-group">
+              <label for="auth0IdToken">Auth0 Id Token</label>
+              <input type="text" class="form-control" id="auth0IdToken" readonly value="" />
+            </div>
+
+            <p><strong>Auth0 token refresh</strong></p>
+            <button type="button" class="btn btn-default" onclick="refreshAuth0Token()">Refresh Token</button>
+
+            <p style="margin-top: 20px;"><strong>Registration</strong></p>
+
+            <form>
+              <div class="form-group">
+                <label for="auth0_reg_fullname">Full name</label>
+                <input type="email" class="form-control" id="auth0_reg_fullname" required="required" placeholder="Fullname" />
+              </div>
+              <div class="form-group">
+                <label for="auth0_reg_email">Email</label>
+                <input type="email" class="form-control" id="auth0_reg_email" placeholder="Email" />
+              </div>
+              <div class="form-group">
+                <label for="auth0_reg_password">Password</label>
+                <input type="password" class="form-control" id="auth0_reg_password" placeholder="Password" />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="registerUser()">Register</button>
+            </form>
+            <div id="auth0RegisterStatus" class="alert"></div>
           </div>
 
           <div role="tabpanel" class="tab-pane" id="jobs">
@@ -90,9 +167,9 @@
                 <label for="page">Page</label>
                 <input type="number" class="form-control" id="page" min="1" max="1000" step="1" value="1" />
               </div>
-              <button type="submit" class="btn btn-primary" onclick="getJobs()">List Jobs</button>
-              <button type="submit" class="btn btn-info" onclick="getJobs('nyc')">List jobs in NYC Area</button>
-              <button type="submit" class="btn btn-info" onclick="getJobs('bac-chi')">List Bank of America jobs in Chicago</button>
+              <button type="submit" class="btn btn-default" onclick="getJobs()">List Jobs</button>
+              <button type="submit" class="btn btn-default" onclick="getJobs('nyc')">List jobs in NYC Area</button>
+              <button type="submit" class="btn btn-default" onclick="getJobs('bac-chi')">List Bank of America jobs in Chicago</button>
               <ul class="pager hide" style="display: inline-block;">
                 <li><a href="#" class="pager-prev" onclick="pageJobs(-1)">Previous</a></li>
                 <li><a href="#" class="pager-next" onclick="pageJobs(1)">Next</a></li>
@@ -111,6 +188,20 @@
               <tbody id="bwdJobsTableBody">
               </tbody>
             </table>
+
+            <button type="submit" class="btn btn-default" onclick="searchJobs()">Search</button>
+            <p><strong>Search stats</strong></p>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Type</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody id="bwdSearchJobsTableBody">
+              </tbody>
+            </table>
           </div>
 
           <div role="tabpanel" class="tab-pane" id="job">
@@ -120,6 +211,9 @@
                 <input type="number" class="form-control" id="jobId" step="1" required />
               </div>
               <button type="submit" class="btn btn-default" onclick="getJob()">Get Job</button>
+              <button type="submit" class="btn btn-default" onclick="getInteractionForJob()">Get Interactions</button>
+              <button type="submit" class="btn btn-default" onclick="setPreviewed()">Set Previewed</button>
+              <button type="submit" class="btn btn-default" onclick="setViewed()">Set Viewed</button>
             </form>
             <div id="bwdJobStatus" class="alert"></div>
             <table class="table table-striped">
@@ -130,6 +224,392 @@
                 </tr>
               </thead>
               <tbody id="bwdJobTableBody">
+              </tbody>
+            </table>
+
+            <p><strong>Interactions</strong></p>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Title</th>
+                </tr>
+              </thead>
+              <tbody id="bwdJobInteractionsTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="companies">
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="companiesLimit">Limit</label>
+                <input type="number" class="form-control" id="companiesLimit" min="1" max="100" step="1" value="50" />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getCompanies()">List Companies</button>
+            </form>
+            <div id="bwdCompaniesStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>URL</th>
+                </tr>
+              </thead>
+              <tbody id="bwdCompaniesTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="company_stats">
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="companyId">Company ID</label>
+                <input type="number" class="form-control" id="companyId" step="1" required />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getCompany()">Get Company</button>
+              <button type="submit" class="btn btn-default" onclick="setFavoriteCompany()">Set Favorite</button>
+              <button type="submit" class="btn btn-default" onclick="setPassCompany()">Set Pass</button>
+              <button type="submit" class="btn btn-default" onclick="setViewedCompany()">Set Viewed</button>
+              <button type="submit" class="btn btn-default" onclick="setPreviewedCompany()">Set Previewed</button>
+              <br>
+              <div class="form-group">
+                <button class="btn btn-default" onclick="checkCompanyStats('pass')">Is Pass</button>
+                <button class="btn btn-default" onclick="checkCompanyStats('favorite')">Is favorite</button>
+                <button class="btn btn-default" onclick="checkCompanyStats('view')">Is Viewed</button>
+                <button class="btn btn-default" onclick="checkCompanyStats('preview')">Is Previewed</button>
+              </div>
+            </form>
+            <div id="bwdCompanyStatsStatus" class="alert"></div>
+            <div id="bwdCompanyStatsInfo" class="alert" role="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody id="bwdCompanyStatsTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="user">
+            <form class="form-inline">
+              <button type="submit" class="btn btn-default" onclick="getUser()">Get info about logged in user</button>
+            </form>
+            <hr>
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" required />
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" id="lastName" required />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="updateUser()">Update logged in user</button>
+            </form>
+            <div id="bwdUserStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody id="bwdUserTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="favorites">
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="env">Type</label>
+                <select class="form-control" id="favorite-filter" name="favorite-type" required="required">
+                  <option value="favoritejob" selected>jobs</option>
+                  <option value="favoritearticle">articles</option>
+                  <option value="favoritecompany">companies</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getFavorites()">Get Favorites</button>
+            </form>
+            <div id="bwdFavoritesStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Ref</th>
+                  <th>Taxonomyref</th>
+                </tr>
+              </thead>
+              <tbody id="bwdFavoritesTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="feed">
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="limit">Limit</label>
+                <input type="number" class="form-control" id="feedLimit" min="1" max="100" step="1" value="10" />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getFeed()">Get</button>
+            </form>
+            <div id="bwdFeedStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Id</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody id="bwdFeedTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="messages">
+            <form class="form-inline">
+              <button type="submit" class="btn btn-default" onclick="getMessages()">Get messages</button>
+
+              <div class="form-group">
+                <label for="messageIds">Ids of messages</label>
+                <input type="text" class="form-control" id="messageIds" required />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="setMessagesRead()">Set messages as read</button>
+              <div class="form-group">
+                <button class="btn btn-default" onclick="checkMessagesRead()">Is Messages Read</button>
+              </div>
+            </form>
+            <div id="bwdMessagesStatus" class="alert"></div>
+            <div id="bwdMessagesStatsInfo" class="alert" role="alert"></div>
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th>Id</th>
+                <th>From</th>
+                <th>Recipient</th>
+                <th>Subject</th>
+                <th>Body</th>
+              </tr>
+              </thead>
+              <tbody id="bwdMessagesTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="locations">
+            <form class="form-inline">
+              <button type="submit" class="btn btn-default" onclick="getLocations()">Get locations</button>
+            </form>
+            <div id="bwdLocationsStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Lat</th>
+                <th>Long</th>
+              </tr>
+              </thead>
+              <tbody id="bwdLocationsTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="autocomplete">
+            <p><strong>Companies</strong></p>
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="companyTitle">Company title</label>
+                <input type="text" class="form-control" id="companyTitle" required />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getAutocompletionsForCompany()">Get companies</button>
+            </form>
+            <div id="bwdAutocompleteStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Label</th>
+                </tr>
+              </thead>
+              <tbody id="bwdCompanyAutocompleteTableBody">
+              </tbody>
+            </table>
+
+            <p><strong>Job Areas</strong></p>
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="jobAreaTitle">Job area title</label>
+                <input type="text" class="form-control" id="jobAreaTitle" required />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getAutocompletionsForJobAreas()">Get job areas</button>
+            </form>
+            <div id="bwdJobAreasStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                </tr>
+              </theaD>
+              <tboDy id="bwdJobAreasTableBody">
+              </tbody>
+            </table>
+
+            <p><strong>Locations</strong></p>
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="locationTitle">Location title</label>
+                <input type="text" class="form-control" id="locationTitle" required />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getAutocompletionsForLocations()">Get locations</button>
+            </form>
+            <div id="bwdAutocompleteLocationsStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                </tr>
+              </thead>
+              <tbody id="bwdAutocompleteLocationsTableBody">
+              </tbody>
+            </table>
+
+            <p><strong>Schools</strong></p>
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="schoolTitle">School title</label>
+                <input type="text" class="form-control" id="schoolTitle" required />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getAutocompletionsForSchools()">Get schools</button>
+            </form>
+            <div id="bwdSchoolsStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                </tr>
+              </thead>
+              <tbody id="bwdSchoolsTableBody">
+              </tbody>
+            </table>
+
+            <p><strong>Fields of Study</strong></p>
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="fieldOfStudyTitle">Field of Study title</label>
+                <input type="text" class="form-control" id="fieldOfStudyTitle" required />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getAutocompletionsForFieldsOfStudy()">Get fields of study</button>
+            </form>
+            <div id="bwdFieldsOfStudyStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                </tr>
+              </thead>
+              <tbody id="bwdFieldsOfStudyTableBody">
+              </tbody>
+            </table>
+
+            <p><strong>Degree programs</strong></p>
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="degreeProgramTitle">Degree program title</label>
+                <input type="text" class="form-control" id="degreeProgramTitle" required />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getAutocompletionsForDegreePrograms()">Get degree programs</button>
+            </form>
+            <div id="bwdDegreeProgramsStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                </tr>
+              </thead>
+              <tbody id="bwdDegreeProgramsTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="articles">
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="limit">Limit</label>
+                <input type="number" class="form-control" id="articlesLimit" min="1" max="100" step="1" value="50" />
+              </div>
+              <div class="form-group">
+                <label for="page">Page</label>
+                <input type="number" class="form-control" id="articlesPage" min="1" max="1000" step="1" value="1" />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getArticles()">List Articles</button>
+              <!-- <button type="submit" class="btn btn-default" onclick="getArticles('nyc')">List articles in NYC Area</button> -->
+            </form>
+            <div id="bwdArticlesStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                </tr>
+              </thead>
+              <tbody id="bwdArticlesTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="article_stats">
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="articleId">Article ID</label>
+                <input type="number" class="form-control" id="articleId" step="1" required />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getArticle()">Get Article</button>
+              <button type="submit" class="btn btn-default" onclick="setFavoriteArticle()">Set Favorite</button>
+              <button type="submit" class="btn btn-default" onclick="setPassArticle()">Set Pass</button>
+              <button type="submit" class="btn btn-default" onclick="setViewedArticle()">Set Viewed</button>
+              <button type="submit" class="btn btn-default" onclick="setPreviewedArticle()">Set Previewed</button>
+            </form>
+            <div id="bwdArticleStatsStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody id="bwdArticleStatsTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="glassdoor_data">
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="glassdoorCompanyId">Company ID</label>
+                <input type="number" class="form-control" id="glassdoorCompanyId" step="1" required />
+              </div>
+              <button type="submit" class="btn btn-default" onclick="getCompanyInfoFromGlassdoor()">Get Company Data</button>
+            </form>
+            <div id="bwdGlassdoorDataStatus" class="alert"></div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody id="bwdGlassdoorDataTableBody">
               </tbody>
             </table>
           </div>
